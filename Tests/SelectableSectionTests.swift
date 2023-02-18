@@ -46,7 +46,7 @@ class SelectableSectionTests: XCTestCase {
             }
         }
 
-        form +++ SelectableSection<ListCheckRow<String>>("And which of the following oceans have you taken a bath in?", selectionType: .multipleSelection)
+        form +++ SelectableSection<ListCheckRow<String>>("And which of the following oceans have you taken a bath in?", selectionType: .multipleSelection(enableDeselection: true))
         for option in oceans {
             form.last! <<< ListCheckRow<String>(option) { lrow in
                 lrow.title = option

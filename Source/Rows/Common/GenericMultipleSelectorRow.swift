@@ -43,6 +43,9 @@ open class GenericMultipleSelectorRow<T, Cell: CellType>: Row<Cell>, PresenterRo
 
     /// Options from which the user will choose
     open var optionsProvider: OptionsProvider<T>?
+    
+    /// Defines the possibility to deselect all values leaving the row value empty.
+    open var enableDeselection = true
 
     required public init(tag: String?) {
         super.init(tag: tag)
@@ -65,6 +68,7 @@ open class GenericMultipleSelectorRow<T, Cell: CellType>: Row<Cell>, PresenterRo
         if let controller = presentationMode.makeController() {
             controller.row = self
             controller.title = selectorTitle ?? controller.title
+            controller.enableDeselection = enableDeselection
             onPresentCallback?(cell.formViewController()!, controller)
             presentationMode.present(controller, row: self, presentingController: self.cell.formViewController()!)
         } else {

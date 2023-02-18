@@ -29,7 +29,7 @@ class ListSectionsController: FormViewController {
 
         let oceans = ["Arctic", "Atlantic", "Indian", "Pacific", "Southern"]
 
-        form +++ SelectableSection<ImageCheckRow<String>>("And which of the following oceans have you taken a bath in?", selectionType: .multipleSelection)
+        form +++ SelectableSection<ImageCheckRow<String>>("And which of the following oceans have you taken a bath in?", selectionType: .multipleSelection(enableDeselection: true))
         for option in oceans {
             form.last! <<< ImageCheckRow<String>(option){ lrow in
                 lrow.title = option

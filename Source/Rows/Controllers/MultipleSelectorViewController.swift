@@ -48,6 +48,9 @@ open class _MultipleSelectorViewController<Row: SelectableRowType, OptionsRow: O
 
     /// A closure that returns footer title for a section for particular key.
     public var sectionFooterTitleForKey: ((String) -> String?)?
+    
+    /// If is it possible to deselect all values leaving the selection empty.
+    public var enableDeselection = true
 
 
     public var optionsProviderRow: OptionsRow {
@@ -109,7 +112,7 @@ open class _MultipleSelectorViewController<Row: SelectableRowType, OptionsRow: O
     }
 
     func section(with options: [OptionsRow.OptionsProviderType.Option], header: String?, footer: String?) -> SelectableSection<Row> {
-        let section = SelectableSection<Row>(header: header ?? "", footer: footer ?? "", selectionType: .multipleSelection) { section in
+        let section = SelectableSection<Row>(header: header ?? "", footer: footer ?? "", selectionType: .multipleSelection(enableDeselection: enableDeselection)) { section in
             section.onSelectSelectableRow = {  [weak self] _, selectableRow in
                 var newValue: Set<OptionsRow.OptionsProviderType.Option> = self?.row.value ?? []
                 if let selectableValue = selectableRow.value {

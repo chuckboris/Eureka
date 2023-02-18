@@ -36,9 +36,9 @@ import UIKit
 public enum SelectionType {
 
     /**
-     * Multiple options can be selected at once
+     * Multiple options can be selected at once.  Can additionally specify if deselection is enabled or not.
      */
-    case multipleSelection
+    case multipleSelection(enableDeselection: Bool)
 
     /**
      * Only one selection at a time. Can additionally specify if deselection is enabled or not.
@@ -87,7 +87,13 @@ extension SelectableSectionType where Element == BaseRow, Self: AnyObject {
                 row.onCellSelection { [weak self] cell, row in
                     guard let s = self, !row.isDisabled else { return }
                     switch s.selectionType {
-                    case .multipleSelection:
+                    case .multipleSelection(let enableDeselection):
+                        if !enableDeselection, // deselection is disabled
+                           row.value != nil, // user is trying to deselect the row
+                           let selectedRowsCount = self?.selectedRows().count,
+                           selectedRowsCount == 1 { // it is the last row selected
+                            return // dont allow the deselection
+                        }
                         row.value = row.value == nil ? row.selectableValue : nil
                     case let .singleSelection(enableDeselection):
                         s.forEach {
